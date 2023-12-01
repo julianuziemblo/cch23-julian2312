@@ -8,13 +8,14 @@ use rocket::get;
 // }
 
 
+/// Will ommit any non-integer path variables
 #[get("/1/<paths..>")]
 pub fn sled_id_system(paths: PathBuf) -> String {
     paths.iter()
         .map(|path| 
             path.to_string_lossy()
                 .parse::<i32>()
-                .unwrap_or(0x1)
+                .unwrap_or(i32::MAX)
         )
         .fold(0, |acc, num| acc ^ num)
         .pow(3)
