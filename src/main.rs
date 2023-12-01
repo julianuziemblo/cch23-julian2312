@@ -1,22 +1,14 @@
-use rocket::{get, routes};
-use rocket::http::Status;
+mod challanges;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Kocham Natalię"
-}
-
-#[get("/-1/error")]
-fn error() -> Status {
-    Status::new(500)
-}
+use rocket::routes;
+use challanges::c_minus_one;
 
 #[shuttle_runtime::main]
 async fn main() -> shuttle_rocket::ShuttleRocket {
     let rocket = rocket::build()
         .mount("/", routes![
-            index, 
-            error,
+            c_minus_one::index, 
+            c_minus_one::error,
         ]);
 
     Ok(rocket.into())
