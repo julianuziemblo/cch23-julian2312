@@ -12,12 +12,12 @@ use rocket::get;
 #[get("/1/<paths..>")]
 pub fn sled_id_system(paths: PathBuf) -> String {
     paths.iter()
-        .map(|path| 
-            path.to_string_lossy()
+        .fold(0, 
+            |acc, num| 
+            acc ^ num.to_string_lossy()
                 .parse::<i32>()
-                .unwrap_or(i32::MAX)
+                .unwrap_or(0)
         )
-        .fold(0, |acc, num| acc ^ num)
         .pow(3)
         .to_string()
 }
